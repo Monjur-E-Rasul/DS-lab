@@ -52,8 +52,9 @@ int insertLast(int item)
     struct listNode * newNode ;
     newNode = (struct listNode*) malloc (sizeof(struct listNode)) ;
     newNode->item = item;
-    newNode->prev=tail;
+    tail->next=newNode;
     newNode->next=0;
+    newNode->prev=tail;
     tail=newNode;
 }
 
@@ -62,14 +63,21 @@ int deleteLast()
     //write your codes here
     struct listNode *del;
 
-    if(tail!=0)
+    if(tail!=0 && tail->prev!=0)
     {
-        del=tail;
-        tail=tail->prev;
+        del = tail;
+        tail = tail->prev;
+        tail->next=0;
         free(del);
         return SUCCESS_VALUE;
     }
-
+    else
+    {
+        free(list);
+        free(tail);
+        initializeList();
+        return SUCCESS_VALUE;
+    }
     return NULL_VALUE;
 }
 
